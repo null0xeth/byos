@@ -10,63 +10,61 @@
   };
 
   outputs = {
-    outputs = {
-      self,
-      flake-parts,
-      nixpkgs,
-      systems,
-      ...
-    } @ inputs:
-      flake-parts.lib.mkFlake {inherit inputs;} {
-        imports = [inputs.pre-commit-hooks-nix.flakeModule ./parts];
+    self,
+    flake-parts,
+    nixpkgs,
+    systems,
+    ...
+  } @ inputs:
+    flake-parts.lib.mkFlake {inherit inputs;} {
+      imports = [inputs.pre-commit-hooks-nix.flakeModule ./parts];
 
-        systems = import systems;
+      systems = import systems;
 
-        perSystem = {
-          config,
-          pkgs,
-          system,
-          inputs',
-          ...
-        }: {
-          _module.args.pkgs = import inputs.nixpkgs {
-            inherit system;
-            config.allowUnfree = true;
-          };
-
-          pre-commit = {
-            check.enable = true;
-            settings = {
-              settings = {
-                deadnix = {
-                  edit = true;
-                  noLambdaArg = true;
-                };
-              };
-              hooks = {
-                statix = {
-                  enable = true;
-                };
-                deadnix = {
-                  enable = true;
-                };
-              };
-            };
-          };
-
-          formatter = pkgs.alejandra;
+      perSystem = {
+        config,
+        pkgs,
+        system,
+        inputs',
+        ...
+      }: {
+        _module.args.pkgs = import inputs.nixpkgs {
+          inherit system;
+          config.allowUnfree = true;
         };
 
-        flake = {
-          templates = {
-            default = {
-              path = ./templates/nixosFlakeParts;
-              description = ''
-                A minimal flake using flake-parts.
-              '';
+        pre-commit = {
+          check.enable = true;
+          settings = {
+            settings = {
+              deadnix = {
+                edit = true;
+                noLambdaArg = true;
+              };
             };
+            hooks = {
+              statix = {
+                enable = true;
+              };
+              deadnix = {
+                enable = true;
+              };
+            };
+          };
+        };
+
+        formatter = pkgs.alejandra;
+      };
+
+      flake = {
+        templates = {
+          default = {
+            path = ./templates/nixosFlakeParts;
+            description = ''
+              A minimal flake using flake-parts.
+            '';
           };
         };
       };
-  };
+    };
 }
