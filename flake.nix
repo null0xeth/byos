@@ -61,7 +61,7 @@
           default = {
             path = ./templates/nixosFlakeParts;
             description = ''
-              A minimal flake using flake-parts.
+              A minimal flake using BYOS and flake-parts.
             '';
           };
         };
