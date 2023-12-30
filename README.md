@@ -32,5 +32,13 @@ Security:
 
 ```bash
 nix flake init -t github:null0xeth/byos
+
+or
+
+add inputs.byos.nixosModules.byosBuilder to your imports.
 ```
 
+## Configuration
+
+An example can be found inside the templates directory under
+```parts/roles/nixos/workstation/intel/poc.nix```
