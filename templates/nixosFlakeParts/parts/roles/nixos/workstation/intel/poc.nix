@@ -122,7 +122,7 @@ in {
               base = {
                 enable = true;
                 exportConfiguration.enable = true;
-                hyperlandSupport.enable = true;
+                hyperlandSupport.enable = false;
                 libinput.enable = true;
               };
               desktopManager = {
@@ -179,10 +179,10 @@ in {
           security = {
             modules = {
               agenix = {
-                enable = true;
+                enable = false;
               };
               yubikey = {
-                enable = true;
+                enable = false;
                 settings = {
                   configuration = {
                     idVendor = "1050";
