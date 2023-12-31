@@ -1,10 +1,8 @@
-{moduleWithSystem, ...}: {
-flake.nixosModules.byosBuilder = moduleWithSystem (
-    perSystem @ {self'}: nixos @ {
-      config,
-      lib,
-      ...
-    }:
+{
+  config,
+  lib,
+  ...
+}:
 with lib; let
   filterfunc = set: builtins.head (builtins.attrNames (lib.filterAttrs (n: _: set.${n}.enable) set));
   cfg = config.presets.${filterfunc config.presets};
@@ -707,6 +705,5 @@ in {
       };
     }
   ]);
-}
-);
+
 }
