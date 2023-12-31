@@ -1,10 +1,7 @@
 {moduleWithSystem, ...}: {
 flake.nixosModules.byosBuilder = moduleWithSystem (
-    perSystem @ {self'}: nixos @ {
-      config,
-      lib,
-      ...
-    }:
+  perSystem @ { ... }:
+  { config, lib, ... }:
 with lib; let
   filterfunc = set: builtins.head (builtins.attrNames (lib.filterAttrs (n: _: set.${n}.enable) set));
   cfg = config.presets.${filterfunc config.presets};
@@ -64,6 +61,10 @@ in {
                       readOnly = true;
                       default = (cfg.builder.fromHardwareConfig.kernelModules != null) && (cfg.builder.fromHardwareConfig.initrd.availableKernelModules != null);
                     };
+                    hostArch = mkOption {
+                      type = types.str;
+                      default = "x86_64-linux"; 
+                    };
                     kernelModules = mkOption {
                       type = types.nullOr (types.listOf types.str);
                       description = mdDoc "add kernelModules from ur Hardware-config.nix";
@@ -78,9 +79,18 @@ in {
                         };
                       };
                     };
-                    #fileSystems = {
-                    # .. add later
-                    #};
+                    fileSystems = mkOption {
+                      type = types.lazyAttrsOf types.anything;
+                    };
+                    swapDevices = mkOption {
+                      type = with types; nullOr (listOf (submodule {
+                        options = {
+                          device = mkOption {
+                            type = path;
+                          };
+                        };
+                      }));
+                    };
                   };
                 };
               };
@@ -523,6 +533,12 @@ in {
         hostName = cfg.builder.networking.hostName;
         extraHosts = cfg.builder.networking.extraHosts;
       };
+      
+      # FileSystems:
+      inherit (cfg.builder.fromHardwareConfig) fileSystems swapDevices;
+      
+      # Host:
+      nixpkgs.hostPlatform = mkDefault "${cfg.builder.fromHardwareConfig.hostArch}";
 
       # Hardware:
       profiles.hardware.preset.${cfg.name} = {

@@ -40,10 +40,24 @@ in {
           };
 
           fromHardwareConfig = {
-            kernelModules = cfg.overrides.kernelModules;
-            initrd = {
-              availableKernelModules = cfg.overrides.initrd.availableKernelModules;
+            inherit (cfg.overrides) kernelModules initrd;
+            hostArch = "x86_64-linux";
+            fileSystems = {
+              "/" = {
+                device = "/dev/disk/by-uuid/01f1cf1e-4344-4940-aa10-bdc16c187711";
+                fsType = "ext4";
+              };
+
+              "/boot" = {
+                device = "/dev/disk/by-uuid/11C2-7FEB";
+                fsType = "vfat";
+              };
             };
+            swapDevices = [
+              {
+                device = "/dev/disk/by-uuid/81cc56c3-21a9-4dfb-8b99-649f41aabf94";
+              }
+            ];
           };
 
           hardware = {
@@ -101,13 +115,15 @@ in {
               stages = {
                 stage1 = {
                   initrd = {
-                    systemd.enable = true;
+                    systemd = {
+                      enable = true;
+                    };
                     kernelModules = [];
-                    availableKernelModules = cfg.overrides.initrd.availableKernelModules;
+                    inherit (cfg.overrides.initrd) availableKernelModules;
                   };
                 };
                 stage2 = {
-                  kernelModules = cfg.overrides.kernelModules;
+                  inherit (cfg.overrides) kernelModules;
                 };
               };
             };
