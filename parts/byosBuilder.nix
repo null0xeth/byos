@@ -1,7 +1,6 @@
-{moduleWithSystem, ...}: {
+{moduleWithSystem, config, ...}: {
 flake.nixosModules.byosBuilder = moduleWithSystem (
     perSystem @ {self'}: nixos @ {
-      config,
       lib,
       ...
     }:
