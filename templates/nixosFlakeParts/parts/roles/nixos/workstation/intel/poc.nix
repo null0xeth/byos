@@ -36,7 +36,7 @@ in {
 
   config = mkIf cfg.enable (mkMerge [
     {
-      presets.proofOfConcept = {
+      byosBuilder.presets.proofOfConcept = {
         enable = true;
         name = "proofOfConcept";
 

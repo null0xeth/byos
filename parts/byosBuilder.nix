@@ -5,7 +5,7 @@
 }:
 with lib; let
   filterfunc = set: builtins.head (builtins.attrNames (lib.filterAttrs (n: _: set.${n}.enable) set));
-  cfg = config.presets.${filterfunc config.presets};
+  cfg = config.byosBuilder.presets.${filterfunc config.byosBuilder.presets};
 
   enableModule = lib.types.submodule {
     options = {
@@ -28,7 +28,8 @@ in {
     ./profiles/nixos/graphical
   ];
 
-  options.presets = mkOption {
+  options.byosBuilder = {
+    presets = mkOption {
     type = types.attrsOf (types.submodule {
       options = {
         enable = mkEnableOption "the preset builder";
@@ -500,6 +501,7 @@ in {
       };
     });
   };
+};
 
   config = mkIf cfg.enable (mkMerge [
     # Initial assertions:
