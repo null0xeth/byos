@@ -7,17 +7,8 @@
 with lib; let
   cfg = config.roles.workstation.poc;
 in {
-  #############################################
-  ### Config for a machine with i5 12th gen ###
-  ### Running hyprland with a GTK backend   ###
-  #############################################
   options.roles.workstation.poc = {
     enable = mkEnableOption "";
-    hostName = mkOption {
-      type = types.str;
-      default = "pewpiemaster";
-      description = mdDoc "the hostname of your system";
-    };
     overrides = {
       kernelModules = mkOption {
         type = types.nullOr (types.listOf types.str);
@@ -36,13 +27,16 @@ in {
 
   config = mkIf cfg.enable (mkMerge [
     {
-      byos.configuration.presets.proofOfConcept = {
+      presets.proofOfConcept = {
         enable = true;
         name = "proofOfConcept";
 
         builder = {
           networking = {
-            hostName = "${cfg.hostName}";
+            hostName = "the-backrooms";
+            extraHosts = ''
+              192.168.1.9 vip.chonk.city
+            '';
           };
 
           fromHardwareConfig = {

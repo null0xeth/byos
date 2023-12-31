@@ -7,7 +7,7 @@ flake.nixosModules.byosBuilder = moduleWithSystem (
     }:
 with lib; let
   filterfunc = set: builtins.head (builtins.attrNames (lib.filterAttrs (n: _: set.${n}.enable) set));
-  cfg = config.byos.configuration.presets.${filterfunc config.byos.configuration.presets};
+  cfg = config.presets.${filterfunc config.presets};
 
   enableModule = lib.types.submodule {
     options = {
@@ -15,7 +15,7 @@ with lib; let
     };
   };
 
-  # QuickNav ##:
+  # QuickNav:
   hwCfg = cfg.builder.hardware;
   kernCfg = cfg.builder.kernel;
   fxCfg = cfg.builder.graphical;
@@ -23,15 +23,14 @@ with lib; let
   secCfg = cfg.builder.security;
 in {
   imports = [
-    ./profiles/nixos/kernel
-    ./profiles/nixos/system
-    ./profiles/nixos/hardware
-    ./profiles/nixos/security
-    ./profiles/nixos/graphical
+    ./profiles/nixos/kernel/sub-profiles/base-profile.nix
+    ./profiles/nixos/system/sub-profiles/base-profile.nix
+    ./profiles/nixos/hardware/sub-profiles/base-profile.nix
+    ./profiles/nixos/security/sub-profiles/base-profile.nix
+    ./profiles/nixos/graphical/sub-profiles/base-profile.nix
   ];
 
-  options.byos.configuration = {
-    presets = mkOption {
+  options.presets = mkOption {
     type = types.attrsOf (types.submodule {
       options = {
         enable = mkEnableOption "the preset builder";
@@ -503,7 +502,6 @@ in {
       };
     });
   };
-};
 
   config = mkIf cfg.enable (mkMerge [
     # Initial assertions:
@@ -712,3 +710,4 @@ in {
 }
 );
 }
+
