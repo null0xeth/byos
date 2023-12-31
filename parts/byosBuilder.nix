@@ -23,11 +23,11 @@ with lib; let
   secCfg = cfg.builder.security;
 in {
   imports = [
-    ./profiles/nixos/kernel/sub-profiles/base-profile.nix
-    ./profiles/nixos/system/sub-profiles/base-profile.nix
-    ./profiles/nixos/hardware/sub-profiles/base-profile.nix
-    ./profiles/nixos/security/sub-profiles/base-profile.nix
-    ./profiles/nixos/graphical/sub-profiles/base-profile.nix
+    ./profiles/nixos/kernel
+    ./profiles/nixos/system
+    ./profiles/nixos/hardware
+    ./profiles/nixos/security
+    ./profiles/nixos/graphical
   ];
 
   options.presets = mkOption {
