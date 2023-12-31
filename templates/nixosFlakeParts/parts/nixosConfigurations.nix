@@ -13,6 +13,8 @@
             inherit inputs inputs';
           };
           modules = [
+            inputs.byos.nixosModules.byosBuilder
+            self.nixosModules.roles
             ../hosts
             ../users
           ];

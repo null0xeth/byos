@@ -1,5 +1,7 @@
 {
-  imports = [
-    ./nixos
-  ];
+  flake.nixosModules = {
+    roles = {
+      imports = [./nixos];
+    };
+  };
 }
