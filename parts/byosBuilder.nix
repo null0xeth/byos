@@ -15,7 +15,7 @@ with lib; let
     };
   };
 
-  # QuickNav:
+  # QuickNav ##:
   hwCfg = cfg.builder.hardware;
   kernCfg = cfg.builder.kernel;
   fxCfg = cfg.builder.graphical;
