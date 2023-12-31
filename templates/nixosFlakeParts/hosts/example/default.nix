@@ -29,14 +29,14 @@
     };
   };
 
-  age = {
-    rekey = {
-      cacheDir = ''/var/tmp/agenix-rekey/"$UID"'';
-      hostPubkey = ./secrets/your/ssh/host/keys;
-      extraEncryptionPubkeys = [../path/to/your/secretIdentity/pubKey];
-      masterIdentities = [../path/to/secretIdentity];
-    };
-  };
+  # age = {
+  #   rekey = {
+  #     cacheDir = ''/var/tmp/agenix-rekey/"$UID"'';
+  #     hostPubkey = ./secrets/your/ssh/host/keys;
+  #     extraEncryptionPubkeys = [../path/to/your/secretIdentity/pubKey];
+  #     masterIdentities = [../path/to/secretIdentity];
+  #   };
+  # };
 
   ## THIS IS COPIED FROM HARDWARE-CONFIG. DOUBLE CHECK BEFORE RUNNING THIS
   fileSystems = {
