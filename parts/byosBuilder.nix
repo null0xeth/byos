@@ -1,12 +1,13 @@
-{moduleWithSystem, config, ...}: {
+{moduleWithSystem, ...}: {
 flake.nixosModules.byosBuilder = moduleWithSystem (
     perSystem @ {self'}: nixos @ {
+      config,
       lib,
       ...
     }:
 with lib; let
   filterfunc = set: builtins.head (builtins.attrNames (lib.filterAttrs (n: _: set.${n}.enable) set));
-  cfg = config.byosBuilder.presets.${filterfunc config.byosBuilder.presets};
+  cfg = config.byos.configuration.presets.${filterfunc config.byos.configuration.presets};
 
   enableModule = lib.types.submodule {
     options = {
@@ -29,7 +30,7 @@ in {
     ./profiles/nixos/graphical
   ];
 
-  options.byosBuilder = {
+  options.byos.configuration = {
     presets = mkOption {
     type = types.attrsOf (types.submodule {
       options = {

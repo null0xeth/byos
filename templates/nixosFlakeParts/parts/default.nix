@@ -1,6 +1,6 @@
 {
   imports = [
-    ./nixosConfigurations.nix
     ./roles
+    ./nixosConfigurations.nix
   ];
 }
