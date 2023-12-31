@@ -79,12 +79,12 @@
         };
 
         # Provides the agenix-rekey app on `nix run .`
-        apps = {
-          agenix-rekey = {
-            type = "app";
-            program = "${nixpkgs.lib.getExe inputs'.agenix-rekey.packages.default}"; #${system}.default}";
-          };
-        };
+        # apps = {
+        #   agenix-rekey = {
+        #     type = "app";
+        #     program = "${nixpkgs.lib.getExe inputs'.agenix-rekey.packages.default}"; #${system}.default}";
+        #   };
+        # };
 
         # Provides checks for `nix flake check`
         pre-commit = {
@@ -113,13 +113,13 @@
 
       flake = {
         # Configures the agenix-rekey app under `perSystem`
-        agenix-rekey = {
-          type = "app";
-          program = inputs.agenix-rekey.configure {
-            userFlake = self;
-            nodes = self.nixosConfigurations;
-          };
-        };
+        # agenix-rekey = {
+        #   type = "app";
+        #   program = inputs.agenix-rekey.configure {
+        #     userFlake = self;
+        #     nodes = self.nixosConfigurations;
+        #   };
+        # };
       };
     };
 }
