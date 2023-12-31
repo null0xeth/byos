@@ -1,15 +1,15 @@
-{moduleWithSystem, config, lib, ...}: 
-let
-  filterfunc = set: builtins.head (builtins.attrNames (lib.filterAttrs (n: _: set.${n}.enable) set));
-  cfg = config.presets.${filterfunc config.presets};
-in {
+{moduleWithSystem, ...}: {
 flake.nixosModules.byosBuilder = moduleWithSystem (
     perSystem @ {self'}: nixos @ {
+      config,
       lib,
       ...
     }:
 with lib; let
-    enableModule = lib.types.submodule {
+  filterfunc = set: builtins.head (builtins.attrNames (lib.filterAttrs (n: _: set.${n}.enable) set));
+  cfg = config.presets.${filterfunc config.presets};
+
+  enableModule = lib.types.submodule {
     options = {
       enable = mkEnableOption "";
     };

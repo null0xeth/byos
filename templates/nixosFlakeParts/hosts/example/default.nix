@@ -6,6 +6,7 @@
 }: {
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
+    inputs.byos.nixosModules.byosBuilder
     ../../modules/nixos
   ];
 
